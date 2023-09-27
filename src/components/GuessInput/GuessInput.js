@@ -2,7 +2,7 @@ import React from 'react';
 
 const MIN_INPUT_LENGTH = 5;
 
-function GuessInput() {
+function GuessInput({ onSaveGuess }) {
   const [guess, setGuess] = React.useState('');
 
   const handleGuessInput = (event) => {
@@ -12,7 +12,7 @@ function GuessInput() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(guess);
+    onSaveGuess(guess);
     setGuess('');
   };
 
