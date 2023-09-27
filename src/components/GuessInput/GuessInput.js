@@ -22,12 +22,14 @@ function GuessInput() {
       <input
         id='guess-input'
         type='text'
+        minLength={MIN_INPUT_LENGTH}
         maxLength={MIN_INPUT_LENGTH}
         pattern={`^(?=.{${MIN_INPUT_LENGTH}}$)[A-Za-z]+$`}
         title={`Input must contain letters only and must be exactly ${MIN_INPUT_LENGTH} characters long`}
         value={guess}
         onChange={handleGuessInput}
         required
+        autoComplete='off'
       />
     </form>
   );
