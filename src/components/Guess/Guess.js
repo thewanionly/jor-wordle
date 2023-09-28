@@ -3,15 +3,19 @@ import { range } from '../../utils';
 import { GUESS_STR_LENGTH } from '../../constants';
 import { checkGuess } from '../../game-helpers';
 
+function Cell({ letter, status }) {
+  const className = !status ? 'cell' : `cell ${status}`;
+
+  return <span className={className}>{letter}</span>;
+}
+
 function Guess({ value = '', answer }) {
-  const cellStatus = checkGuess(value, answer)?.map(({ status }) => status) ?? [];
+  const result = checkGuess(value, answer) ?? [];
 
   return (
     <p className='guess'>
       {range(GUESS_STR_LENGTH).map((colIndex) => (
-        <span className={`cell ${cellStatus[colIndex] ?? ''}`} key={colIndex}>
-          {value[colIndex]}
-        </span>
+        <Cell key={colIndex} letter={result[colIndex]?.letter} status={result[colIndex]?.status} />
       ))}
     </p>
   );
