@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MIN_INPUT_LENGTH = 5;
+import { GUESS_STR_LENGTH } from '../../constants';
 
 function GuessInput({ onSaveGuess }) {
   const [guess, setGuess] = React.useState('');
@@ -22,10 +22,10 @@ function GuessInput({ onSaveGuess }) {
       <input
         id='guess-input'
         type='text'
-        minLength={MIN_INPUT_LENGTH}
-        maxLength={MIN_INPUT_LENGTH}
-        pattern={`^(?=.{${MIN_INPUT_LENGTH}}$)[A-Za-z]+$`}
-        title={`Input must contain letters only and must be exactly ${MIN_INPUT_LENGTH} characters long`}
+        minLength={GUESS_STR_LENGTH}
+        maxLength={GUESS_STR_LENGTH}
+        pattern={`^(?=.{${GUESS_STR_LENGTH}}$)[A-Za-z]+$`}
+        title={`Input must contain letters only and must be exactly ${GUESS_STR_LENGTH} characters long`}
         value={guess}
         onChange={handleGuessInput}
         required
