@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GUESS_STR_LENGTH } from '../../constants';
 
-function GuessInput({ onSaveGuess }) {
+function GuessInput({ onSaveGuess, disabled = false }) {
   const [guess, setGuess] = React.useState('');
 
   const handleGuessInput = (event) => {
@@ -30,6 +30,7 @@ function GuessInput({ onSaveGuess }) {
         onChange={handleGuessInput}
         required
         autoComplete='off'
+        disabled={disabled}
       />
     </form>
   );

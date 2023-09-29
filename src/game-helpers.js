@@ -1,3 +1,5 @@
+import { NUM_OF_GUESSES_ALLOWED, GAME_STATE } from './constants';
+
 /**
  * Thanks to Github user dylano for supplying a more-accurate
  * solving algorithm!
@@ -22,7 +24,7 @@ export function checkGuess(guess, answer) {
     if (guessChars[i] === answerChars[i]) {
       result[i] = {
         letter: guessChars[i],
-        status: 'correct',
+        status: 'correct'
       };
       answerChars[i] = SOLVED_CHAR;
       guessChars[i] = SOLVED_CHAR;
@@ -37,9 +39,7 @@ export function checkGuess(guess, answer) {
     }
 
     let status = 'incorrect';
-    const misplacedIndex = answerChars.findIndex(
-      (char) => char === guessChars[i]
-    );
+    const misplacedIndex = answerChars.findIndex((char) => char === guessChars[i]);
     if (misplacedIndex >= 0) {
       status = 'misplaced';
       answerChars[misplacedIndex] = SOLVED_CHAR;
@@ -47,9 +47,20 @@ export function checkGuess(guess, answer) {
 
     result[i] = {
       letter: guessChars[i],
-      status,
+      status
     };
   }
 
   return result;
+}
+
+export function checkGameState(guesses, answer) {
+  // User wins
+  if (guesses.some(({ value }) => value === answer)) return GAME_STATE.WINS;
+
+  // User loses
+  if (guesses.length === NUM_OF_GUESSES_ALLOWED) return GAME_STATE.LOSES;
+
+  // User is still playing
+  return GAME_STATE.PLAYING;
 }
