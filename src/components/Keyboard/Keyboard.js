@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { checkGuess } from '../../game-helpers';
-
 const KEY_STATUS = {
   correct: {
     value: 'correct',
@@ -23,8 +21,8 @@ const KEY_STATUS = {
 
 const KEYBOARD_KEYS_LAYOUT = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
 
-// Check the status of each letter that are already guessed
-// Return one single array containing all letters that are already guessed
+// One single array containing all letters that are already guessed
+// Sorted by priority indicated in KEY_STATUS object, removing low prio duplicates
 const getGuessedLettersStatus = (guesses) =>
   guesses
     .flat()
@@ -38,30 +36,28 @@ const getGuessedLettersStatus = (guesses) =>
 
       return 0;
     })
-    // remove duplicates
+    // remove duplicates. those duplicate with low prio will be removed
     .filter(
       (value, index, self) =>
         self.findIndex((selfValue) => selfValue.letter === value.letter) === index
     );
 
-const getKeysStatuses = (guesses) => {
+const getKeyboardRows = (guesses) => {
   // Get all guessed letters and their statuses
   const guessedLetters = getGuessedLettersStatus(guesses);
 
-  // Return an object containing all key values and statuses
-  return Object.fromEntries(guessedLetters.map((value) => [value.letter, value]));
-};
+  // Create an object containing all guessed letters with letter as key and the status as value
+  const keysStatus = Object.fromEntries(
+    guessedLetters.map(({ letter, status }) => [letter, status])
+  );
 
-const getKeyboardRows = (guesses) => {
-  // Get all keys with their statuses
-  const keyStatuses = getKeysStatuses(guesses);
-
-  // Loop over each row. In each row, transform `value` to contain an array of object
-  // that containst the key's `letter` and `status`
+  // Create 2D array, similar to KEYBOARD_KEYS_LAYOUT.
+  // In each top-level row, transform `value` to an array of objects that containst the key's `letter` and `status`
   return KEYBOARD_KEYS_LAYOUT.map((value) =>
-    value
-      .split('')
-      .map((key) => ({ letter: key, status: keyStatuses[key]?.status ?? KEY_STATUS.unused.value }))
+    value.split('').map((key) => ({
+      letter: key,
+      status: keysStatus[key] ?? KEY_STATUS.unused.value
+    }))
   );
 };
 
