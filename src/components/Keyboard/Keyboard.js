@@ -33,7 +33,7 @@ const KEYBOARD_KEYS_LAYOUT_ARR = Object.values(KEYBOARD_KEYS_LAYOUT);
 // Check the status of each letter that are already guessed
 // Return one single array containing all letters that are already guessed
 // Sorted by priority indicated in KEY_STATUS object
-const guessedLettersStatus = (guesses, answer) =>
+const getGuessedLettersStatus = (guesses, answer) =>
   guesses
     .flatMap((guess) => checkGuess(guess.value, answer))
     .sort((a, b) => {
@@ -60,7 +60,7 @@ const checkKeyStatus = (key, guessedLetters) => {
 
 const getKeyboardKeys = (guesses, answer) => {
   // Get all guessed letters and their statuses
-  const guessedLetters = guessedLettersStatus(guesses, answer);
+  const guessedLetters = getGuessedLettersStatus(guesses, answer);
 
   // Loop over each row. In each row, transform `value` to contain an array of object
   // that containst the key's `letter` and `status`
