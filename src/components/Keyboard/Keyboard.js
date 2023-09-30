@@ -25,9 +25,9 @@ const KEYBOARD_KEYS_LAYOUT = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
 
 // Check the status of each letter that are already guessed
 // Return one single array containing all letters that are already guessed
-const getGuessedLettersStatus = (guesses, answer) =>
+const getGuessedLettersStatus = (guesses) =>
   guesses
-    .flatMap((guess) => checkGuess(guess.value, answer))
+    .flat()
     // sort by priority indicated in KEY_STATUS object
     .sort((a, b) => {
       const statusA = KEY_STATUS[a.status].sortOrder;
@@ -44,17 +44,17 @@ const getGuessedLettersStatus = (guesses, answer) =>
         self.findIndex((selfValue) => selfValue.letter === value.letter) === index
     );
 
-const getKeysStatuses = (guesses, answer) => {
+const getKeysStatuses = (guesses) => {
   // Get all guessed letters and their statuses
-  const guessedLetters = getGuessedLettersStatus(guesses, answer);
+  const guessedLetters = getGuessedLettersStatus(guesses);
 
   // Return an object containing all key values and statuses
   return Object.fromEntries(guessedLetters.map((value) => [value.letter, value]));
 };
 
-const getKeyboardRows = (guesses, answer) => {
+const getKeyboardRows = (guesses) => {
   // Get all keys with their statuses
-  const keyStatuses = getKeysStatuses(guesses, answer);
+  const keyStatuses = getKeysStatuses(guesses);
 
   // Loop over each row. In each row, transform `value` to contain an array of object
   // that containst the key's `letter` and `status`
@@ -69,8 +69,8 @@ function Key({ value, status }) {
   return <span className={`key ${status}`}>{value}</span>;
 }
 
-function Keyboard({ guesses, answer }) {
-  const rows = getKeyboardRows(guesses, answer);
+function Keyboard({ guesses }) {
+  const rows = getKeyboardRows(guesses);
 
   return (
     <div className='keyboard'>
