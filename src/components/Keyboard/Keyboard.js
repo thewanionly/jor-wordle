@@ -44,35 +44,24 @@ const getGuessedLettersStatus = (guesses, answer) =>
         self.findIndex((selfValue) => selfValue.letter === value.letter) === index
     );
 
-const getAllKeysStatuses = (guesses, answer) => {
-  // Genereate an object containing all key values and statuses
-  const allKeys = Object.fromEntries(
-    Object.values(KEYBOARD_KEYS_LAYOUT)
-      .join('')
-      .split('')
-      .map((k) => [k, { letter: k, status: KEY_STATUS.unused.value }])
-  );
-
+const getKeysStatuses = (guesses, answer) => {
   // Get all guessed letters and their statuses
   const guessedLetters = getGuessedLettersStatus(guesses, answer);
 
-  // Loop over the guesses and determine the status of each key.
-  // Update the corresponding key in `allKeys` object
-  guessedLetters.forEach(({ letter, status }) => {
-    allKeys[letter].status = status;
-  });
-
-  return allKeys;
+  // Return an object containing all key values and statuses
+  return Object.fromEntries(guessedLetters.map((value) => [value.letter, value]));
 };
 
 const getKeyboardRows = (guesses, answer) => {
   // Get all keys with their statuses
-  const allKeys = getAllKeysStatuses(guesses, answer);
+  const keyStatuses = getKeysStatuses(guesses, answer);
 
   // Loop over each row. In each row, transform `value` to contain an array of object
   // that containst the key's `letter` and `status`
   return KEYBOARD_KEYS_LAYOUT.map((value) =>
-    value.split('').map((key) => ({ letter: key, status: allKeys[key].status }))
+    value
+      .split('')
+      .map((key) => ({ letter: key, status: keyStatuses[key]?.status ?? KEY_STATUS.unused.value }))
   );
 };
 
