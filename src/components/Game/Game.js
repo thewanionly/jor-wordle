@@ -11,12 +11,8 @@ import Keyboard from '../Keyboard';
 import { checkGameState, checkGuess } from '../../game-helpers';
 import { GAME_STATE } from '../../constants';
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
+  const [answer, setAnswer] = useState(() => sample(WORDS));
   const [guesses, setGuesses] = useState([]);
   const gameState = checkGameState(guesses, answer);
   const gameOver = gameState === GAME_STATE.WON || gameState === GAME_STATE.LOST;
@@ -33,12 +29,21 @@ function Game() {
     ]);
   };
 
+  const handleRestartGame = () => {
+    setGuesses([]);
+    setAnswer(sample(WORDS));
+  };
+
   return (
     <>
       <GuessResults guesses={checkedGuesses} />
       <GuessInput onSaveGuess={handleSaveGuess} disabled={gameOver} />
-      {gameState === GAME_STATE.WON && <WonBanner numOfGuesses={guesses.length} />}
-      {gameState === GAME_STATE.LOST && <LostBanner answer={answer} />}
+      {gameState === GAME_STATE.WON && (
+        <WonBanner numOfGuesses={guesses.length} onGameRestart={handleRestartGame} />
+      )}
+      {gameState === GAME_STATE.LOST && (
+        <LostBanner answer={answer} onGameRestart={handleRestartGame} />
+      )}
       <Keyboard guesses={checkedGuesses} />
     </>
   );

@@ -271,3 +271,11 @@ h1 {
   border-color: var(--color-gray-900);
   color: black;
 }
+
+.button {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-900);
+  color: black;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
