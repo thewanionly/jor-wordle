@@ -5,9 +5,10 @@ import { WORDS } from '../../data';
 
 import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
+import WonBanner from '../WonBanner';
+import LostBanner from '../LostBanner';
 import { checkGameState } from '../../game-helpers';
 import { GAME_STATE } from '../../constants';
-import Banner from '../Banner';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -33,24 +34,8 @@ function Game() {
     <>
       <GuessResults guesses={guesses} answer={answer} />
       <GuessInput onSaveGuess={handleSaveGuess} disabled={gameOver} />
-      {gameState === GAME_STATE.WINS && (
-        <Banner variant='success'>
-          <p>
-            <strong>Congratulations!</strong> Got it in{' '}
-            <strong>
-              {guesses.length} {guesses.length > 1 ? 'guesses' : 'guess'}
-            </strong>
-            .
-          </p>
-        </Banner>
-      )}
-      {gameState === GAME_STATE.LOSES && (
-        <Banner variant='error'>
-          <p>
-            Sorry, the correct answer is <strong>{answer}</strong>.
-          </p>
-        </Banner>
-      )}
+      {gameState === GAME_STATE.WINS && <WonBanner numOfGuesses={guesses.length} />}
+      {gameState === GAME_STATE.LOSES && <LostBanner answer={answer} />}
     </>
   );
 }
