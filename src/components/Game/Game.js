@@ -18,7 +18,7 @@ console.info({ answer });
 function Game() {
   const [guesses, setGuesses] = useState([]);
   const gameState = checkGameState(guesses, answer);
-  const gameOver = gameState === GAME_STATE.WINS || gameState === GAME_STATE.LOSES;
+  const gameOver = gameState === GAME_STATE.WON || gameState === GAME_STATE.LOST;
 
   const handleSaveGuess = (guess) => {
     setGuesses([
@@ -34,8 +34,8 @@ function Game() {
     <>
       <GuessResults guesses={guesses} answer={answer} />
       <GuessInput onSaveGuess={handleSaveGuess} disabled={gameOver} />
-      {gameState === GAME_STATE.WINS && <WonBanner numOfGuesses={guesses.length} />}
-      {gameState === GAME_STATE.LOSES && <LostBanner answer={answer} />}
+      {gameState === GAME_STATE.WON && <WonBanner numOfGuesses={guesses.length} />}
+      {gameState === GAME_STATE.LOST && <LostBanner answer={answer} />}
     </>
   );
 }

@@ -56,10 +56,10 @@ export function checkGuess(guess, answer) {
 
 export function checkGameState(guesses, answer) {
   // User wins
-  if (guesses.some(({ value }) => value === answer)) return GAME_STATE.WINS;
+  if (guesses.some(({ value }) => value === answer)) return GAME_STATE.WON;
 
   // User loses
-  if (guesses.length === NUM_OF_GUESSES_ALLOWED) return GAME_STATE.LOSES;
+  if (guesses.length === NUM_OF_GUESSES_ALLOWED) return GAME_STATE.LOST;
 
   // User is still playing
   return GAME_STATE.PLAYING;
