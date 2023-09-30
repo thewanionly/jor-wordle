@@ -1,5 +1,5 @@
 import React from 'react';
-import { range } from '../../utils';
+
 import { checkGuess } from '../../game-helpers';
 
 const KEY_STATUS = {
@@ -21,14 +21,7 @@ const KEY_STATUS = {
   }
 };
 
-const KEYBOARD_KEYS_LAYOUT = {
-  top: 'QWERTYUIOP',
-  middle: 'ASDFGHJKL',
-  bottom: 'ZXCVBNM'
-};
-
-const KEYBOARD_ROWS_COUNT = Object.keys(KEYBOARD_KEYS_LAYOUT).length;
-const KEYBOARD_KEYS_LAYOUT_ARR = Object.values(KEYBOARD_KEYS_LAYOUT);
+const KEYBOARD_KEYS_LAYOUT = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
 
 // Check the status of each letter that are already guessed
 // Return one single array containing all letters that are already guessed
@@ -72,13 +65,13 @@ const getAllKeysStatuses = (guesses, answer) => {
   return allKeys;
 };
 
-const getKeyboardKeys = (guesses, answer) => {
+const getKeyboardRows = (guesses, answer) => {
   // Get all keys with their statuses
   const allKeys = getAllKeysStatuses(guesses, answer);
 
   // Loop over each row. In each row, transform `value` to contain an array of object
   // that containst the key's `letter` and `status`
-  return KEYBOARD_KEYS_LAYOUT_ARR.map((value) =>
+  return KEYBOARD_KEYS_LAYOUT.map((value) =>
     value.split('').map((key) => ({ letter: key, status: allKeys[key].status }))
   );
 };
@@ -88,13 +81,13 @@ function Key({ value, status }) {
 }
 
 function Keyboard({ guesses, answer }) {
-  const keys = getKeyboardKeys(guesses, answer);
+  const rows = getKeyboardRows(guesses, answer);
 
   return (
     <div className='keyboard'>
-      {range(KEYBOARD_ROWS_COUNT).map((rowIndex) => (
-        <div className='keyboard-row' key={rowIndex}>
-          {keys[rowIndex].map(({ letter, status }) => (
+      {rows.map((row, index) => (
+        <div className='keyboard-row' key={index}>
+          {row.map(({ letter, status }) => (
             <Key key={letter} value={letter} status={status} />
           ))}
         </div>
