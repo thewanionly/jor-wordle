@@ -165,7 +165,7 @@ h1 {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  top: 0;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -229,4 +229,45 @@ h1 {
   to {
     transform: translateY(0%);
   }
+}
+
+/* Keyboard */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 10px;
+}
+
+.key {
+  padding: 10px;
+  min-width: 33px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.key.correct {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+.key.incorrect {
+  background-color: var(--color-gray-300);
+  border-color: var(--color-gray-300);
+  color: white;
+}
+.key.misplaced {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: white;
+}
+.key.unused {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-900);
+  color: black;
 }

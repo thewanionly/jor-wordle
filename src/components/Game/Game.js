@@ -7,6 +7,7 @@ import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
 import WonBanner from '../WonBanner';
 import LostBanner from '../LostBanner';
+import Keyboard from '../Keyboard';
 import { checkGameState } from '../../game-helpers';
 import { GAME_STATE } from '../../constants';
 
@@ -36,6 +37,7 @@ function Game() {
       <GuessInput onSaveGuess={handleSaveGuess} disabled={gameOver} />
       {gameState === GAME_STATE.WON && <WonBanner numOfGuesses={guesses.length} />}
       {gameState === GAME_STATE.LOST && <LostBanner answer={answer} />}
+      <Keyboard guesses={guesses} answer={answer} />
     </>
   );
 }
